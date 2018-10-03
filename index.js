@@ -1,21 +1,26 @@
-var React = require('react');
-var createReactClass = require('create-react-class');
+const React = require('react')
+const createReactClass = require('create-react-class')
 
 module.exports = createReactClass({
-	initialize: function(node) {
-		if (node === null) return;
-		var app = this.props.src.embed(node, this.props.flags);
+  initialize: function (node) {
+    if (node === null) {
+      return
+    }
 
-		if (typeof this.props.ports !== 'undefined') {
-			this.props.ports(app.ports);
-		}
-	},
+    const { flags, ports, src } = this.props
 
-	shouldComponentUpdate: function(prevProps) {
-		return false;
-	},
+    const app = src.init({ node, flags })
 
-	render: function () {
-		return React.createElement('div', { ref: this.initialize });
-	}
-});
+    if (typeof ports !== 'undefined') {
+      ports(app.ports)
+    }
+  },
+
+  shouldComponentUpdate: function (prevProps) {
+    return false
+  },
+
+  render: function () {
+    return React.createElement('div', { ref: this.initialize })
+  }
+})
